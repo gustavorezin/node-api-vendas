@@ -1,4 +1,6 @@
 import 'reflect-metadata';
+import '@shared/typeorm';
+
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { routes } from './routes';
