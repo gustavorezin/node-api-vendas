@@ -3,7 +3,7 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
     /* Language and Environment */
-    "target": "es2016",
+    "target": "es2016", // do professor ta es5
     "lib": ["es6"],
 
     /* Modules */
@@ -15,6 +15,7 @@
       "@modules/*": ["src/modules/*"],
       "@shared/*": ["src/shared/*"]
     },
+    "typeRoots": ["@types", "./node_modules/@types"],
     "resolveJsonModule": true,
 
     /* JavaScript Support */
@@ -30,6 +31,11 @@
     /* Type Checking */
     "strict": true,
     "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+
+    /* Decorators */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     /* Completeness */
     "skipLibCheck": true
