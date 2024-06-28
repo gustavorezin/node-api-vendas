@@ -1,12 +1,12 @@
 import { Product } from '@modules/products/typeorm/entities/Product';
-import { Repository, EntityRepository } from 'typeorm';
-@EntityRepository(Product)
-export class ProductRepository extends Repository<Product> {
-  public async findByName(name: string): Promise<Product | null> {
-    const product = this.findOne({
-      where: { name }
-    });
+import { dataSource } from '@shared/infra/typeorm';
 
-    return product;
+export const ProductRepository = dataSource.getRepository(Product).extend({
+  findByName(name: string) {
+    return this.createQueryBuilder('product')
+      .where('product.name = :name', {
+        name
+      })
+      .getOne();
   }
-}
+});

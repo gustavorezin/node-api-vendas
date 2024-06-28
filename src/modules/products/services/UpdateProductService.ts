@@ -17,15 +17,13 @@ export class UpdateProductService {
     price,
     quantity
   }: IRequest): Promise<Product> {
-    const productRepository = getCustomRepository(ProductRepository);
-
-    const product = await productRepository.findOne({ where: { id } });
+    const product = await ProductRepository.findOne({ where: { id } });
 
     if (!product) {
       throw new AppError('Product not found.');
     }
 
-    const productExists = await productRepository.findByName(name);
+    const productExists = await ProductRepository.findByName(name);
 
     if (productExists && name !== product.name) {
       throw new AppError('There is already one product with this name');
@@ -35,7 +33,9 @@ export class UpdateProductService {
     product.price = price;
     product.quantity = quantity;
 
-    await productRepository.save(product);
+    await ProductRepository.save(product);
+
+    console.log(product);
 
     return product;
   }
