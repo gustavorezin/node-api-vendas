@@ -35,8 +35,6 @@ export class UpdateProductsService {
 
     await ProductsRepository.save(product);
 
-    console.log(product);
-
     return product;
   }
 }
