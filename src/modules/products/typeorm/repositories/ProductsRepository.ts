@@ -1,5 +1,5 @@
-import { Product } from '@modules/products/typeorm/entities/Product';
 import { dataSource } from '@shared/infra/typeorm';
+import { Product } from '../entities/Product';
 
 export const ProductsRepository = dataSource.getRepository(Product).extend({
   findByName(name: string) {
