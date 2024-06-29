@@ -4,12 +4,13 @@ import cors from 'cors';
 import { routes } from './routes';
 import { AppError } from '@shared/errors/AppError';
 import { errors } from 'celebrate';
+import { uploadConfig } from '@config/upload';
 
 export const app = express();
 
 app.use(cors());
 app.use(express.json());
-
+app.use('/files', express.static(uploadConfig.diretory));
 app.use(routes);
 
 app.use(errors());
