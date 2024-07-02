@@ -1,6 +1,7 @@
 import { AppError } from '@shared/errors/AppError';
 import { UsersRepository } from '../typeorm/repositories/UsersRepository';
 import { UsersTokensRepository } from '../typeorm/repositories/UsersTokensRepository';
+import { EtherealMail } from '@config/mail/EtherealMail';
 
 interface IRequest {
   email: string;
@@ -16,6 +17,10 @@ export class SendForgotPasswordEmailService {
 
     const token = await UsersTokensRepository.generate(user.id);
 
-    console.log(token);
+    //console.log(token);
+    await EtherealMail.sendMail({
+      to: email,
+      body: `Solicitação de redefinição de senha recebida: ${token.token}`
+    });
   }
 }
