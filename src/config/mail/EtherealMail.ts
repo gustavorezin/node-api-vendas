@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import {
   HandlebarsMailTemplate,
   IParseMailTemplate
-} from './HandleBarsMailTemplate';
+} from './HandlebarsMailTemplate';
 
 interface IMailContact {
   name: string;
