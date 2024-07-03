@@ -9,6 +9,11 @@ import { CreateProducts1719504639312 } from './migrations/1719504639312-CreatePr
 import { CreateUsers1719584811062 } from './migrations/1719584811062-CreateUsers';
 import { CreateUserTokens1719847447398 } from './migrations/1719847447398-CreateUserTokens';
 import { CreateCustomers1720009461773 } from './migrations/1720009461773-CreateCustomers';
+import { CreateOrders1720017342987 } from './migrations/1720017342987-CreateOrders';
+import { AddCustomerIdToOrders1720017527359 } from './migrations/1720017527359-AddCustomerIdToOrders';
+import { CreateOrdersProducts1720017995107 } from './migrations/1720017995107-CreateOrdersProducts';
+import { AddOrderIdToOrdersProducts1720018152130 } from './migrations/1720018152130-AddOrderIdToOrdersProducts';
+import { AddProductIdToOrdersProducts1720018333378 } from './migrations/1720018333378-AddProductIdToOrdersProducts';
 
 export const dataSource = new DataSource({
   type: 'postgres',
@@ -24,6 +29,11 @@ export const dataSource = new DataSource({
     CreateProducts1719504639312,
     CreateUsers1719584811062,
     CreateUserTokens1719847447398,
-    CreateCustomers1720009461773
+    CreateCustomers1720009461773,
+    CreateOrders1720017342987,
+    AddCustomerIdToOrders1720017527359,
+    CreateOrdersProducts1720017995107,
+    AddOrderIdToOrdersProducts1720018152130,
+    AddProductIdToOrdersProducts1720018333378
   ]
 });
