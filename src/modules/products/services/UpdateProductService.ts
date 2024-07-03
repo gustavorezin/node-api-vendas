@@ -17,7 +17,7 @@ export class UpdateProductsService {
     price,
     quantity
   }: IRequest): Promise<Product> {
-    const product = await ProductsRepository.findOne({ where: { id } });
+    const product = await ProductsRepository.findOneBy({ id });
 
     if (!product) {
       throw new AppError('Product not found.');

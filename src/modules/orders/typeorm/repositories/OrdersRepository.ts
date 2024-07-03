@@ -16,9 +16,7 @@ interface IRequest {
 export const OrdersRepository = dataSource.getRepository(Order).extend({
   findById(id: string) {
     return this.findOne({
-      where: {
-        id
-      },
+      where: { id },
       relations: ['customer', 'orderProducts']
     });
   },
