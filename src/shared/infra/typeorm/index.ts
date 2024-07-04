@@ -4,6 +4,8 @@ import { Product } from '../../../modules/products/typeorm/entities/Product';
 import { User } from '../../../modules/users/typeorm/entities/User';
 import { UserToken } from '../../../modules/users/typeorm/entities/UserToken';
 import { Customer } from '../../../modules/customers/typeorm/entities/Customer';
+import { Order } from '../../../modules/orders/typeorm/entities/Order';
+import { OrdersProducts } from '../../../modules/orders/typeorm/entities/OrdersProducts';
 
 import { CreateProducts1719504639312 } from './migrations/1719504639312-CreateProducts';
 import { CreateUsers1719584811062 } from './migrations/1719584811062-CreateUsers';
@@ -23,7 +25,7 @@ export const dataSource = new DataSource({
   password: 'docker',
   database: 'postgres',
   // /src/modules/**/typeorm/entities/*.ts -> nao funciona pois deve ser feito build antes (.js)
-  entities: [Product, User, UserToken, Customer],
+  entities: [Product, User, UserToken, Customer, Order, OrdersProducts],
   // /src/shared/infra/typeorm/migrations/*.ts -> nao funciona pois deve ser feito build antes (.js)
   migrations: [
     CreateProducts1719504639312,
