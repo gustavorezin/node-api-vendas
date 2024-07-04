@@ -13,7 +13,6 @@ export const ProductsRepository = dataSource.getRepository(Product).extend({
     });
   },
   findAllByIds(products: IFindProducts[]) {
-    console.log(products);
     const productIds = products.map(product => product.id);
     return this.findBy({
       id: In(productIds)

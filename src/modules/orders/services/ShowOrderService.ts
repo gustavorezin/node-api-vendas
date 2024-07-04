@@ -8,7 +8,6 @@ interface IRequest {
 export class ShowOrderService {
   public async execute({ id }: IRequest) {
     const order = await OrdersRepository.findById(id);
-    console.log(order);
     if (!order) {
       throw new AppError('Order not found.');
     }
