@@ -3,7 +3,7 @@ import { dataSource } from '@shared/infra/typeorm';
 import { Order } from '../entities/Order';
 
 interface IProduct {
-  product_id: string;
+  productId: string;
   price: number;
   quantity: number;
 }
