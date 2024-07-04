@@ -9,14 +9,14 @@ interface IProduct {
 }
 
 interface IRequest {
-  customerId: string;
+  customer_id: string;
   products: IProduct[];
 }
 
 export class CreateOrderService {
-  public async execute({ customerId, products }: IRequest) {
+  public async execute({ customer_id, products }: IRequest) {
     // Verifica se cliente existe
-    const customer = await CustomersRepository.findById(customerId);
+    const customer = await CustomersRepository.findById(customer_id);
 
     if (!customer) {
       throw new AppError('Could not find any customer with the given id.');
@@ -61,7 +61,7 @@ export class CreateOrderService {
     const serializedProducts = products.map(product => {
       const foundProduct = existsProductsMap.get(product.id)!;
       return {
-        productId: product.id,
+        product_id: product.id,
         quantity: product.quantity,
         price: foundProduct.price
       };
@@ -75,9 +75,9 @@ export class CreateOrderService {
 
     // Atualiza quantidade dos produtos no banco de dados
     const updatedProductQuantity = serializedProducts.map(product => ({
-      id: product.productId,
+      id: product.product_id,
       quantity:
-        existsProductsMap.get(product.productId)!.quantity - product.quantity
+        existsProductsMap.get(product.product_id)!.quantity - product.quantity
     }));
 
     await ProductsRepository.save(updatedProductQuantity);
