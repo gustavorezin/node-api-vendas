@@ -5,14 +5,15 @@ import { routes } from './routes';
 import { AppError } from '@shared/errors/AppError';
 import { errors } from 'celebrate';
 import { uploadConfig } from '@config/upload';
+import { rateLimiter } from './middlewares/rateLimiter';
 
 export const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(rateLimiter);
 app.use('/files', express.static(uploadConfig.diretory));
 app.use(routes);
-
 app.use(errors());
 
 app.use(
