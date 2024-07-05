@@ -1,8 +1,6 @@
 import { AppError } from '@shared/errors/AppError';
+import { DiskStorageProvider } from '@shared/providers/StorageProvider/DiskStorageProvider';
 import { UsersRepository } from '../typeorm/repositories/UsersRepository';
-import path from 'path';
-import fs from 'fs';
-import { uploadConfig } from '@config/upload';
 
 interface IRequest {
   userId: string;
@@ -12,21 +10,21 @@ interface IRequest {
 export class UpdateUserAvatarService {
   public async execute({ userId, avatarFileName }: IRequest) {
     const user = await UsersRepository.findById(userId);
+    const storageProvider = new DiskStorageProvider();
 
     if (!user) {
       throw new AppError('User not found.');
     }
+
     // apagar avatar se ja salvo anteriormente
     if (user.avatar) {
-      const userAvatarFilePath = path.join(uploadConfig.diretory, user.avatar);
-      const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
-
-      if (userAvatarFileExists) {
-        await fs.promises.unlink(userAvatarFilePath);
-      }
+      await storageProvider.deleteFile(user.avatar);
     }
+
     // salvar novo
+    await storageProvider.saveFile(avatarFileName);
     user.avatar = avatarFileName;
+
     await UsersRepository.save(user);
 
     return user;
