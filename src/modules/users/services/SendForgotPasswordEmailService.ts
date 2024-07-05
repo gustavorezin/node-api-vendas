@@ -3,6 +3,8 @@ import { UsersRepository } from '../typeorm/repositories/UsersRepository';
 import { UsersTokensRepository } from '../typeorm/repositories/UsersTokensRepository';
 import { EtherealMail } from '@config/mail/EtherealMail';
 import path from 'path';
+import { mailConfig } from '@config/mail/mail';
+import { SESMail } from '@config/mail/SESMail';
 
 interface IRequest {
   email: string;
@@ -25,7 +27,7 @@ export class SendForgotPasswordEmailService {
       'forgotPassword.hbs'
     );
 
-    await EtherealMail.sendMail({
+    const mail = {
       to: { name: user.name, email: user.email },
       subject: '[API VENDAS] Recuperação de Senha',
       templateData: {
@@ -35,6 +37,13 @@ export class SendForgotPasswordEmailService {
           link: `${process.env.APP_WEB_URL}/reset_password?token=${token}`
         }
       }
-    });
+    };
+
+    if (mailConfig.driver === 'ses') {
+      await SESMail.sendMail(mail);
+      return;
+    }
+
+    await EtherealMail.sendMail(mail);
   }
 }
