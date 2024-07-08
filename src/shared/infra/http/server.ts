@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
 import '@shared/infra/typeorm';
+import '@shared/container';
 import { app } from './app';
 import { dataSource } from '../typeorm';
 

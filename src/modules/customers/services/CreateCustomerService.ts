@@ -1,18 +1,19 @@
-import { CustomersRepository } from '../infra/typeorm/repositories/CustomersRepository';
+import { inject, injectable } from 'tsyringe';
+import { ICreateCustomer } from '../domain/models/ICreateCustomer';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 
-interface IRequest {
-  name: string;
-  email: string;
-}
-
+@injectable()
 export class CreateCustomerService {
-  public async execute({ name, email }: IRequest) {
-    const customer = CustomersRepository.create({
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository
+  ) {}
+
+  public async execute({ name, email }: ICreateCustomer) {
+    const customer = await this.customersRepository.generate({
       name,
       email
     });
-
-    await CustomersRepository.save(customer);
 
     return customer;
   }

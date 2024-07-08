@@ -1,5 +1,7 @@
 import { AppError } from '@shared/errors/AppError';
 import { CustomersRepository } from '../infra/typeorm/repositories/CustomersRepository';
+import { inject, injectable } from 'tsyringe';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 
 interface IRequest {
   id: string;
@@ -7,9 +9,15 @@ interface IRequest {
   email: string;
 }
 
+@injectable()
 export class UpdateCustomerService {
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository
+  ) {}
+
   public async execute({ id, name, email }: IRequest) {
-    const customer = await CustomersRepository.findById(id);
+    const customer = await this.customersRepository.findById(id);
     if (!customer) {
       throw new AppError('Customer not found.');
     }
@@ -17,7 +25,7 @@ export class UpdateCustomerService {
     customer.name = name;
     customer.email = email;
 
-    await CustomersRepository.save(customer);
+    await this.customersRepository.update(customer);
 
     return customer;
   }
