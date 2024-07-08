@@ -1,4 +1,4 @@
-import { CustomersRepository } from '../typeorm/repositories/CustomersRepository';
+import { CustomersRepository } from '../infra/typeorm/repositories/CustomersRepository';
 
 interface IRequest {
   name: string;

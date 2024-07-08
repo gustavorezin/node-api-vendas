@@ -1,6 +1,6 @@
 import { AppError } from '@shared/errors/AppError';
-import { UsersRepository } from '../typeorm/repositories/UsersRepository';
 import { hash } from 'bcryptjs';
+import { UsersRepository } from '../infra/typeorm/repositories/UsersRepository';
 
 interface IRequest {
   name: string;

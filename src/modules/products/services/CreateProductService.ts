@@ -1,7 +1,7 @@
-import { ProductsRepository } from '../typeorm/repositories/ProductsRepository';
 import { AppError } from '@shared/errors/AppError';
-import { Product } from '../typeorm/entities/Product';
 import { redisCache } from '@shared/cache/RedisCache';
+import { ProductsRepository } from '../infra/typeorm/repositories/ProductsRepository';
+import { Product } from '../infra/typeorm/entities/Product';
 
 interface IRequest {
   name: string;

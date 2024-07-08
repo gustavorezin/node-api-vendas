@@ -1,6 +1,6 @@
 import { AppError } from '@shared/errors/AppError';
 import { DiskStorageProvider } from '@shared/providers/StorageProvider/DiskStorageProvider';
-import { UsersRepository } from '../typeorm/repositories/UsersRepository';
+import { UsersRepository } from '../infra/typeorm/repositories/UsersRepository';
 import { uploadConfig } from '@config/upload';
 import { S3StorageProvider } from '@shared/providers/StorageProvider/S3StorageProvider';
 

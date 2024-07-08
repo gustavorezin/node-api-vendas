@@ -1,11 +1,11 @@
 import { DataSource } from 'typeorm';
 
-import { Product } from '../../../modules/products/typeorm/entities/Product';
-import { User } from '../../../modules/users/typeorm/entities/User';
-import { UserToken } from '../../../modules/users/typeorm/entities/UserToken';
-import { Customer } from '../../../modules/customers/typeorm/entities/Customer';
-import { Order } from '../../../modules/orders/typeorm/entities/Order';
-import { OrdersProducts } from '../../../modules/orders/typeorm/entities/OrdersProducts';
+import { Product } from '../../../modules/products/infra/typeorm/entities/Product';
+import { User } from '../../../modules/users/infra/typeorm/entities/User';
+import { UserToken } from '../../../modules/users/infra/typeorm/entities/UserToken';
+import { Customer } from '../../../modules/customers/infra/typeorm/entities/Customer';
+import { Order } from '../../../modules/orders/infra/typeorm/entities/Order';
+import { OrdersProducts } from '../../../modules/orders/infra/typeorm/entities/OrdersProducts';
 
 import { CreateProducts1719504639312 } from './migrations/1719504639312-CreateProducts';
 import { CreateUsers1719584811062 } from './migrations/1719584811062-CreateUsers';

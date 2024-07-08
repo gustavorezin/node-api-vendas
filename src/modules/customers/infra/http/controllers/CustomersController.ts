@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { ListCustomerService } from '../services/ListCustomerService';
-import { ShowCustomerService } from '../services/ShowCustomerService';
-import { CreateCustomerService } from '../services/CreateCustomerService';
-import { DeleteCustomerService } from '../services/DeleteCustomerService';
-import { UpdateCustomerService } from '../services/UpdateCustomerService';
+import { ListCustomerService } from '@modules/customers/services/ListCustomerService';
+import { CreateCustomerService } from '@modules/customers/services/CreateCustomerService';
+import { DeleteCustomerService } from '@modules/customers/services/DeleteCustomerService';
+import { ShowCustomerService } from '@modules/customers/services/ShowCustomerService';
+import { UpdateCustomerService } from '@modules/customers/services/UpdateCustomerService';
 
 export class CustomersController {
   public async index(request: Request, response: Response): Promise<Response> {

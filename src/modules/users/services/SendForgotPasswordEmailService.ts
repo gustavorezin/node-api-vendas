@@ -1,10 +1,10 @@
 import { AppError } from '@shared/errors/AppError';
-import { UsersRepository } from '../typeorm/repositories/UsersRepository';
-import { UsersTokensRepository } from '../typeorm/repositories/UsersTokensRepository';
+import { UsersRepository } from '../infra/typeorm/repositories/UsersRepository';
 import { EtherealMail } from '@config/mail/EtherealMail';
 import path from 'path';
 import { mailConfig } from '@config/mail/mail';
 import { SESMail } from '@config/mail/SESMail';
+import { UsersTokensRepository } from '../infra/typeorm/repositories/UsersTokensRepository';
 
 interface IRequest {
   email: string;
