@@ -6,12 +6,12 @@ export class DiskStorageProvider {
   public async saveFile(file: string) {
     await fs.promises.rename(
       path.resolve(uploadConfig.tempFolder, file),
-      path.resolve(uploadConfig.diretory, file)
+      path.resolve(uploadConfig.directory, file)
     );
   }
 
   public async deleteFile(file: string) {
-    const filePath = path.resolve(uploadConfig.diretory, file);
+    const filePath = path.resolve(uploadConfig.directory, file);
 
     try {
       await fs.promises.stat(filePath);
