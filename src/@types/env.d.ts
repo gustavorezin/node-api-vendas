@@ -7,5 +7,6 @@ declare namespace NodeJS {
     REDIS_PORT: number;
     REDIS_PASS: string;
     MAIL_DRIVER: 'ethereal' | 'ses';
+    STORAGE_DRIVER: 'disk' | 's3';
   }
 }
