@@ -1,7 +1,7 @@
 import { ProductsRepository } from '../typeorm/repositories/ProductsRepository';
 import { AppError } from '@shared/errors/AppError';
 import { Product } from '../typeorm/entities/Product';
-import { RedisCache } from '@shared/cache/RedisCache';
+import { redisCache } from '@shared/cache/RedisCache';
 
 interface IRequest {
   name: string;
@@ -11,7 +11,6 @@ interface IRequest {
 
 export class CreateProductsService {
   public async execute({ name, price, quantity }: IRequest): Promise<Product> {
-    const redisCache = new RedisCache();
     const productExists = await ProductsRepository.findByName(name);
 
     if (productExists) {
