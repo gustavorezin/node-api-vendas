@@ -1,17 +1,24 @@
+import { uploadConfig } from '@config/upload';
 import { AppError } from '@shared/errors/AppError';
 import { DiskStorageProvider } from '@shared/providers/StorageProvider/DiskStorageProvider';
-import { UsersRepository } from '../infra/typeorm/repositories/UsersRepository';
-import { uploadConfig } from '@config/upload';
 import { S3StorageProvider } from '@shared/providers/StorageProvider/S3StorageProvider';
+import { inject, injectable } from 'tsyringe';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
 interface IRequest {
   userId: string;
   avatarFileName: string;
 }
 
+@injectable()
 export class UpdateUserAvatarService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
+
   public async execute({ userId, avatarFileName }: IRequest) {
-    const user = await UsersRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId);
 
     if (!user) {
       throw new AppError('User not found.');
@@ -33,7 +40,7 @@ export class UpdateUserAvatarService {
 
     user.avatar = avatarFileName;
 
-    await UsersRepository.save(user);
+    await this.usersRepository.update(user);
 
     return user;
   }

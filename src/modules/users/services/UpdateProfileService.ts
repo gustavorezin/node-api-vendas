@@ -1,6 +1,7 @@
 import { AppError } from '@shared/errors/AppError';
 import { compare, hash } from 'bcryptjs';
-import { UsersRepository } from '../infra/typeorm/repositories/UsersRepository';
+import { inject, injectable } from 'tsyringe';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
 interface IRequest {
   userId: string;
@@ -10,7 +11,13 @@ interface IRequest {
   oldPassword?: string;
 }
 
+@injectable()
 export class UpdateProfileService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
+
   public async execute({
     userId,
     name,
@@ -18,12 +25,12 @@ export class UpdateProfileService {
     password,
     oldPassword
   }: IRequest) {
-    const user = await UsersRepository.findById(userId);
+    const user = await this.usersRepository.findById(userId);
     if (!user) {
       throw new AppError('User not found.');
     }
 
-    const userUpdateEmail = await UsersRepository.findByEmail(email);
+    const userUpdateEmail = await this.usersRepository.findByEmail(email);
     if (userUpdateEmail && userUpdateEmail.id !== userId) {
       throw new AppError('There is already one user with this e-mail.');
     }
@@ -43,7 +50,7 @@ export class UpdateProfileService {
     user.name = name;
     user.email = email;
 
-    await UsersRepository.save(user);
+    await this.usersRepository.update(user);
 
     return user;
   }

@@ -1,6 +1,7 @@
 import { AppError } from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
-import { UsersRepository } from '../infra/typeorm/repositories/UsersRepository';
+import { inject, injectable } from 'tsyringe';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
 interface IRequest {
   name: string;
@@ -8,9 +9,15 @@ interface IRequest {
   password: string;
 }
 
+@injectable()
 export class CreateUserService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository
+  ) {}
+
   public async execute({ name, email, password }: IRequest) {
-    const emailExists = await UsersRepository.findByEmail(email);
+    const emailExists = await this.usersRepository.findByEmail(email);
 
     if (emailExists) {
       throw new AppError('E-mail address already used.');
@@ -18,12 +25,11 @@ export class CreateUserService {
 
     const hashedPassword = await hash(password, 8);
 
-    const user = UsersRepository.create({
+    const user = await this.usersRepository.generate({
       name,
       email,
       password: hashedPassword
     });
-    await UsersRepository.save(user);
 
     return user;
   }
