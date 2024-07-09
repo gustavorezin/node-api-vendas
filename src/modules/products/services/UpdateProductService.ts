@@ -1,7 +1,7 @@
-import { AppError } from '@shared/errors/AppError';
 import { redisCache } from '@shared/cache/RedisCache';
-import { Product } from '../infra/typeorm/entities/Product';
-import { ProductsRepository } from '../infra/typeorm/repositories/ProductsRepository';
+import { AppError } from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
+import { IProductsRepository } from '../domains/repositories/IProductsRepository';
 
 interface IRequest {
   id: string;
@@ -10,20 +10,21 @@ interface IRequest {
   quantity: number;
 }
 
+@injectable()
 export class UpdateProductsService {
-  public async execute({
-    id,
-    name,
-    price,
-    quantity
-  }: IRequest): Promise<Product> {
-    const product = await ProductsRepository.findOneBy({ id });
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository
+  ) {}
+
+  public async execute({ id, name, price, quantity }: IRequest) {
+    const product = await this.productsRepository.findById(id);
 
     if (!product) {
       throw new AppError('Product not found.');
     }
 
-    const productExists = await ProductsRepository.findByName(name);
+    const productExists = await this.productsRepository.findByName(name);
 
     if (productExists && name !== product.name) {
       throw new AppError('There is already one product with this name');
@@ -35,7 +36,7 @@ export class UpdateProductsService {
     product.price = price;
     product.quantity = quantity;
 
-    await ProductsRepository.save(product);
+    await this.productsRepository.update(product);
 
     return product;
   }
