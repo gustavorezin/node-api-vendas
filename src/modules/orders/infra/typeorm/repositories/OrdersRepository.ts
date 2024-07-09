@@ -1,31 +1,29 @@
-import { Customer } from '@modules/customers/infra/typeorm/entities/Customer';
+import { ICreateOrder } from '@modules/orders/domain/models/ICreateOrder';
+import { IOrdersRepository } from '@modules/orders/domain/repositories/IOrdersRepository';
 import { dataSource } from '@shared/infra/typeorm';
+import { Repository } from 'typeorm';
 import { Order } from '../entities/Order';
 
-interface IProduct {
-  product_id: string;
-  price: number;
-  quantity: number;
-}
+export class OrdersRepository implements IOrdersRepository {
+  private repository: Repository<Order>;
 
-interface IRequest {
-  customer: Customer;
-  products: IProduct[];
-}
+  constructor() {
+    this.repository = dataSource.getRepository(Order);
+  }
 
-export const OrdersRepository = dataSource.getRepository(Order).extend({
-  findById(id: string) {
-    return this.findOne({
-      where: { id },
-      relations: ['customer', 'orderProducts']
-    });
-  },
-  async createOrder({ customer, products }: IRequest) {
-    const order = this.create({
+  async generate({ customer, products }: ICreateOrder) {
+    const order = this.repository.create({
       customer,
       orderProducts: products
     });
-    await this.save(order);
+    await this.repository.save(order);
     return order;
   }
-});
+
+  findById(id: string) {
+    return this.repository.findOne({
+      where: { id },
+      relations: ['customer', 'orderProducts']
+    });
+  }
+}

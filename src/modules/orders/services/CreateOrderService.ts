@@ -1,29 +1,36 @@
-import { CustomersRepository } from '@modules/customers/infra/typeorm/repositories/CustomersRepository';
-import { ProductsRepository } from '@modules/products/infra/typeorm/repositories/ProductsRepository';
+import { ICustomersRepository } from '@modules/customers/domain/repositories/ICustomersRepository';
+import { IProduct } from '@modules/products/domains/models/IProduct';
+import { IProductsRepository } from '@modules/products/domains/repositories/IProductsRepository';
 import { AppError } from '@shared/errors/AppError';
-import { OrdersRepository } from '../infra/typeorm/repositories/OrdersRepository';
-
-interface IProduct {
-  id: string;
-  quantity: number;
-}
+import { inject, injectable } from 'tsyringe';
+import { IOrdersRepository } from '../domain/repositories/IOrdersRepository';
 
 interface IRequest {
   customer_id: string;
   products: IProduct[];
 }
 
+@injectable()
 export class CreateOrderService {
+  constructor(
+    @inject('OrdersRepository')
+    private ordersRepository: IOrdersRepository,
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository
+  ) {}
+
   public async execute({ customer_id, products }: IRequest) {
     // Verifica se cliente existe
-    const customer = await CustomersRepository.findById(customer_id);
+    const customer = await this.customersRepository.findById(customer_id);
 
     if (!customer) {
       throw new AppError('Could not find any customer with the given id.');
     }
 
     // Verifica se lista de produtos existe
-    const existsProducts = await ProductsRepository.findAllByIds(products);
+    const existsProducts = await this.productsRepository.findAllByIds(products);
 
     if (existsProducts.length === 0) {
       throw new AppError('Could not find any products with the given ids.');
@@ -67,8 +74,8 @@ export class CreateOrderService {
       };
     });
 
-    // Cria a ordem
-    const order = await OrdersRepository.createOrder({
+    // Cria a ordem/venda
+    const order = await this.ordersRepository.generate({
       customer,
       products: serializedProducts
     });
@@ -80,7 +87,7 @@ export class CreateOrderService {
         existsProductsMap.get(product.product_id)!.quantity - product.quantity
     }));
 
-    await ProductsRepository.save(updatedProductQuantity);
+    await this.productsRepository.updateStock(updatedProductQuantity);
 
     return order;
   }
