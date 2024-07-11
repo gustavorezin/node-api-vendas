@@ -39,6 +39,7 @@ export class ProductsController {
     const { id } = request.params;
     const deleteProduct = container.resolve(DeleteProductsService);
     await deleteProduct.execute({ id });
-    return response.json([]);
+    // 204 = No content
+    return response.status(204).json();
   }
 }

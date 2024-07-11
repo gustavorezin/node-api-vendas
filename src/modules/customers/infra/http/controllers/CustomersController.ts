@@ -39,6 +39,6 @@ export class CustomersController {
     const { id } = request.params;
     const deleteCustomer = container.resolve(DeleteCustomerService);
     await deleteCustomer.execute({ id });
-    return response.json([]);
+    return response.status(204).json();
   }
 }
