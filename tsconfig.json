@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig to read more about this file */
-
-    /* Language and Environment */
-    "target": "es2016", // do professor ta es5
+    "target": "es2016",
     "lib": ["es6"],
-
-    /* Modules */
     "module": "commonjs",
     "rootDir": "src",
     "baseUrl": "./",
@@ -17,27 +12,15 @@
     },
     "typeRoots": ["@types", "./node_modules/@types"],
     "resolveJsonModule": true,
-
-    /* JavaScript Support */
     "allowJs": true,
-
-    /* Emit */
     "outDir": "build",
-
-    /* Interop Constraints */
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-
-    /* Type Checking */
     "strict": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
-
-    /* Decorators */
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-
-    /* Completeness */
     "skipLibCheck": true
   },
   "exclude": ["node_modules", "build"],
