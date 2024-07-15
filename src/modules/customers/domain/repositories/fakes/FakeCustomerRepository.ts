@@ -1,10 +1,8 @@
-import { Repository } from 'typeorm';
+import { ICustomer } from '@modules/customers/domain/models/ICustomer';
+import { Customer } from '@modules/customers/infra/typeorm/entities/Customer';
 import { v4 as uuidv4 } from 'uuid';
 import { ICreateCustomer } from './../../../domain/models/ICreateCustomer';
 import { ICustomersRepository } from './../../../domain/repositories/ICustomersRepository';
-import { dataSource } from '@shared/infra/typeorm';
-import { ICustomer } from '@modules/customers/domain/models/ICustomer';
-import { Customer } from '@modules/customers/infra/typeorm/entities/Customer';
 
 export class FakeCustomersRepository implements ICustomersRepository {
   private customers: Customer[] = [];
