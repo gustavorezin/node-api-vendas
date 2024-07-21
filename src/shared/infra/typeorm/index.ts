@@ -19,7 +19,7 @@ import { AddProductIdToOrdersProducts1720018333378 } from './migrations/17200183
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
+  host: 'db',
   port: 5432,
   username: 'postgres',
   password: 'docker',
